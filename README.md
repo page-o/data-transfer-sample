@@ -12,7 +12,7 @@ Creates the following resources:
 
 ## Usage
 
-Check the [sample](/sample/) folder.
+Check the [sample](/env/sample/) folder.
 
 Create terraform.tfvars in `/env/sample/` folder like below.
 ```tf: /env/sample/terraform.tfvars
