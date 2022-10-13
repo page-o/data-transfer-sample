@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Template for Terraform Backend
+Parameters:
+  S3BucketName:
+    Type: String
+    Description: Bucket name
+    MinLength: 3
+    MaxLength: 63
+    AllowedPattern: "[a-z0-9][a-zA-Z0-9.-]+"
+  DynamoDBTableName:
+    Type: String
+    Description: Table name
+    MinLength: 3
+    MaxLength: 63
+    AllowedPattern: "[a-zA-Z0-9][a-zA-Z0-9.-]+"
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName:
+        Ref: S3BucketName
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: True
+        BlockPublicPolicy: True
+        IgnorePublicAcls: True
+        RestrictPublicBuckets: True
+  DynamoDBTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Ref: DynamoDBTableName
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1
+      AttributeDefinitions:
+        -
+          AttributeName: "LockID"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "LockID"
+          KeyType: "HASH"
